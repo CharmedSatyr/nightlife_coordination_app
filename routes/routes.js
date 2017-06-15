@@ -16,22 +16,23 @@ module.exports = (app /*, passport*/ ) => {
 
    app.route('/')
       .get((req, res) => {
-
-
+         if (err) {
+            console.error(err);
+         } else {
+            console.log('This is a home page');
+         }
       });
 
 
    app.route('/:location')
-      .get((req, res) => {
+      .post((req, res) => {
 
-         let location = req.params.location;
+         const location = req.params.location;
 
          yelp.search("categories=bars&location=" + location)
             .then((result) => {
-               res.json(result);
+
+               res.json(result.businesses);
             });
-
-
       });
-
 };

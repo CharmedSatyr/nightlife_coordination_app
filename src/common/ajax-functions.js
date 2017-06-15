@@ -1,8 +1,5 @@
 'use strict';
 
-console.log('I am a valuable member of the community');
-
-
 const ready = (fn) => {
    if (typeof fn !== 'function') {
       return;
