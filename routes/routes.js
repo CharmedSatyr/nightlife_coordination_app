@@ -2,8 +2,13 @@
 
 const path = require('path');
 
+const Venue = require('../models/User.js');
+
 require('dotenv')
    .load();
+
+
+
 
 const Yelp = require('node-yelp-fusion');
 const yelp = new Yelp({
@@ -12,8 +17,6 @@ const yelp = new Yelp({
 });
 
 module.exports = (app /*, passport*/ ) => {
-
-
    app.route('/')
       .get((req, res) => {
          if (err) {
@@ -23,16 +26,62 @@ module.exports = (app /*, passport*/ ) => {
          }
       });
 
-
+   //      1. User searches a Location
    app.route('/:location')
       .post((req, res) => {
 
          const location = req.params.location;
 
+         //      2. options pop up from Yelp
          yelp.search("categories=bars&location=" + location)
             .then((result) => {
-
                res.json(result.businesses);
             });
       });
+
+   app.route('/:location/:venue')
+      .post((req, res) => {
+
+         //   3. if a user clicks a location, check if the location exists
+         Venue.findOne({ //AndUpdate ??
+               'name': req.params.venue
+            })
+            .exec((err, result) => {
+               if (err) {
+                  console.error(err);
+               }
+               // 4. if the location already exists, push a candidate to attending (worry about unattend later);
+               if (result) {
+                  result.name.push('Guest');
+
+                  result.save((err) => {
+                     if (err) {
+                        console.error(err);
+                     }
+                  });
+                  console.log(result);
+               } else {
+                  //5. if the location doesn't exist, it is saved (name and phone (unique ID)?)
+                  const venue = new Venue({
+                     'name': req.params.venue,
+                     'phone': 5551234,
+                     'attending': ['Host']
+                  });
+
+                  venue.save((err, doc) => {
+                     if (err) {
+                        console.error(err);
+                     }
+                     res.send('Saving venue:' + doc);
+                     console.log('Saving venue:' + doc);
+                  });
+               }
+            });
+      });
+
+   /*
+   6. if a location has no attending, it is removed
+   */
+
+
 };
