@@ -1,6 +1,9 @@
 # dotenv environment variables file
 .env
 
+# Mongo data folder
+data
+
 # Logs
 logs
 *.log
