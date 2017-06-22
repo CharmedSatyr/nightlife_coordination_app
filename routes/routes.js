@@ -2,13 +2,10 @@
 
 const path = require('path');
 
-const Venue = require('../models/User.js');
+const Venue = require('../models/Venue.js');
 
 require('dotenv')
    .load();
-
-
-
 
 const Yelp = require('node-yelp-fusion');
 const yelp = new Yelp({
@@ -52,28 +49,27 @@ module.exports = (app /*, passport*/ ) => {
                }
                // 4. if the location already exists, push a candidate to attending (worry about unattend later);
                if (result) {
-                  result.name.push('Guest');
+                  result.attending.push('Guest');
 
                   result.save((err) => {
                      if (err) {
                         console.error(err);
                      }
                   });
-                  console.log(result);
+                  res.send([result.attending.length]);
                } else {
                   //5. if the location doesn't exist, it is saved (name and phone (unique ID)?)
-                  const venue = new Venue({
+                  const newVenue = new Venue({
                      'name': req.params.venue,
                      'phone': 5551234,
                      'attending': ['Host']
                   });
 
-                  venue.save((err, doc) => {
+                  newVenue.save((err, doc) => {
                      if (err) {
                         console.error(err);
                      }
-                     res.send('Saving venue:' + doc);
-                     console.log('Saving venue:' + doc);
+                     res.json('Saving venue: ' + doc);
                   });
                }
             });
@@ -82,6 +78,4 @@ module.exports = (app /*, passport*/ ) => {
    /*
    6. if a location has no attending, it is removed
    */
-
-
 };
