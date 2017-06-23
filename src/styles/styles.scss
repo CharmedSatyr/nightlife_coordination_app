@@ -31,9 +31,8 @@ body {
   }
 }
 */
-
 .result-wrapper {
-    transition-duration: 600ms;
+    transition-duration: 200ms;
 }
 
 
@@ -57,8 +56,15 @@ body {
 
 .result {
     content: "";
-    display: block;
-    margin: auto;
-    width: 50%;
+/*    display: block;*/
+/*    margin: auto;*/
+    width: 400px;
     height: 20px;
+}
+
+.numAttendingBox {
+  float: right;
+  margin-left: 10px;
+  font-style: italic;
+  color: teal !important;
 }

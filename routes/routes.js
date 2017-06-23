@@ -37,6 +37,19 @@ module.exports = (app /*, passport*/ ) => {
       });
 
    app.route('/:location/:venue')
+      .get((req, res) => {
+         Venue.findOne({
+               'name': req.params.venue
+            })
+            .exec((err, result) => {
+               if (err) {
+                  console.error(err);
+               }
+               if (result) {
+                  res.json(result.attending.length);
+               }
+            })
+      })
       .post((req, res) => {
 
          //   3. if a user clicks a location, check if the location exists
@@ -56,7 +69,7 @@ module.exports = (app /*, passport*/ ) => {
                         console.error(err);
                      }
                   });
-                  res.send([result.attending.length]);
+                  res.json(result.attending.length);
                } else {
                   //5. if the location doesn't exist, it is saved (name and phone (unique ID)?)
                   const newVenue = new Venue({
@@ -69,7 +82,7 @@ module.exports = (app /*, passport*/ ) => {
                      if (err) {
                         console.error(err);
                      }
-                     res.json('Saving venue: ' + doc);
+                     res.json(doc.attending.length);
                   });
                }
             });
