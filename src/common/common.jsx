@@ -1,21 +1,16 @@
 'use strict';
+
 import ajaxFunctions from '../common/ajax-functions.jsx';
 import $ from 'jquery';
 
-//POSTs attendance to /:location/:venue
-/*
-const attendance = (venue) => {
-   const locationEntry = document.getElementById('locationEntry')
-      .value;
-   ajaxFunctions.ajaxRequest('POST', '/' + locationEntry + '/' + venue, (response) => {
-      console.log('Hope this works', response);
-   });
-   console.log('Going to:', venue);
-};
-*/
-
 //Populates results in a fancy way
 const showEntry = (text) => {
+   /*
+        <div className='result-wrapper loading'>
+          </div class='result'>{displayName}</div>
+          <div class='numAttendingBox' id={displayName+'-attendees'}>{numAttending}</div>
+        </div>
+   */
 
    const results = document.getElementById('results');
    //Next, clear results of any previous results before repopulating---...
@@ -30,19 +25,10 @@ const showEntry = (text) => {
    result.title = text;
 
    ajaxFunctions.ajaxRequest('GET', '/' + locationEntry + '/' + text, (response) => {
-
       const numAttendingBox = document.createElement('div');
       numAttendingBox.className = 'numAttendingBox';
-
-      //Can't seem to get a '0' to show up for a blank response...
-      let num;
-      if (response) {
-         num = response;
-      } else {
-         num = '0';
-      }
-
-      const numAttending = document.createTextNode(num);
+      numAttendingBox.id = text + '-attendees';
+      const numAttending = document.createTextNode(response);
       numAttendingBox.appendChild(numAttending);
       result.appendChild(numAttendingBox);
    });
@@ -50,12 +36,15 @@ const showEntry = (text) => {
    result.onclick = () => {
       const locationEntry = document.getElementById('locationEntry')
          .value;
-      console.log('click');
-      //This ajax stopped working
-      ajaxFunctions.ajaxRequest('POST', '/' + locationEntry + '/' + text, (response) => {
+      //Why is this soooo slow?
+      ajaxFunctions.ready(ajaxFunctions.ajaxRequest('POST', '/' + locationEntry + '/' + text, (response) => {
          console.log('Increasing number of guests to:', response);
-         //Should call showEntry again or something
-      });
+         ajaxFunctions.ajaxRequest('GET', '/' + locationEntry + '/' + text, (response) => {
+            console.log(response);
+            document.getElementById(text + '-attendees')
+               .value = response++;
+         });
+      }));
 
    };
 
