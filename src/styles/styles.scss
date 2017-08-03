@@ -1,71 +1,12 @@
-body {
-    overflow-x: hidden;
-}
-
-#results {
-  width: 100%;
-  margin: 0;
-}
-
-/*Doesn't work? */
-/*
-.result-wrapper {
-  transition-duration: 600ms;
-
-  .loading:nth-child(odd) {
-    -webkit-transform: translate(100%);
-            transform: translate(100%);
-
-            .result {
-              background: orange;
-            }
-  }
-
-  .loading:nth-child(even) {
-    -webkit-transform: translate(-100%);
-            transform: translate(-100%);
-
-            .result {
-              background: yellow;
-            }
-  }
-}
-*/
-.result-wrapper {
-    transition-duration: 200ms;
-}
-
-
-.result-wrapper.loading:nth-child(odd) {
-    transform: translate(100%);
-    -webkit-transform: translate(100%);
-}
-
-.result-wrapper.loading:nth-child(even) {
-    transform: translate(-100%);
-    -webkit-transform: translate(-100%);
-}
-
-.result-wrapper:nth-child(odd) .result {
-    background: orange;
-}
-
-.result-wrapper:nth-child(even) .result {
-    background: red;
-}
-
 .result {
-border: 1px solid red;
-    content: "";
-/*    display: block;*/
-/*    margin: auto;*/
-    width: 400px;
-    height: 20px;
+  border: 1px solid red;
+  width : 400px;
+  height: 20px;
 }
 
 .numAttendingBox {
-  float: right;
+  float      : right;
   margin-left: 10px;
-  font-style: italic;
-  color: teal !important;
+  font-style : italic;
+  color      : teal !important;
 }

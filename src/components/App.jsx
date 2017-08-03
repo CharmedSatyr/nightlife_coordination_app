@@ -1,12 +1,11 @@
 'use strict';
 
-import React, {
-   Component
-} from 'react';
-
+import React, { Component } from 'react';
 import ajaxFunctions from '../common/ajax-functions.jsx';
 
-class App extends React.Component {
+import Result from './Result.jsx';
+
+export default class App extends Component {
    constructor(props) {
       super(props);
       this.state = {
@@ -22,27 +21,28 @@ class App extends React.Component {
       this.pullVenues();
    }
    pullVenues() {
-      ajaxFunctions.ajaxRequest('POST', '/' + this.state.city, (response) => {
+      if (this.state.city !== '') {
+         ajaxFunctions.ajaxRequest('POST', '/' + this.state.city, (response) => {
 
-         const venues = [];
-         JSON.parse(response)
-            .map((item) => {
-               console.log(item.name);
-               venues.push(item.name);
+            const venues = [];
+            JSON.parse(response)
+               .map((item) => {
+                  venues.push(item.name);
+               });
+
+            this.setState({
+               venues: venues
             });
-
-         this.setState({
-            venues: venues
          });
-      });
+      }
    }
    componentWillMount() {
-      this.pullVenues(this.state.city);
+      this.pullVenues();
    }
    render() {
       const children = [];
       this.state.venues.map((item, index) => {
-         children.push(<Result key={index} item={item}/>);
+         children.push(<Result key={index} city={this.state.city} item={item}/>);
       });
 
       return (
@@ -58,12 +58,3 @@ class App extends React.Component {
       );
    };
 };
-
-const Result = ({
-   item
-}) => (
-   <div className='result'>{item}</div>
-);
-
-
-export default App;
