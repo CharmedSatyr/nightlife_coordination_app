@@ -16,8 +16,14 @@ const Schema = mongoose.Schema;
 
 const Venue = new Schema({
    name: String,
-   phone: String,
+   zip: String,
    attending: [String]
+   /*,
+      created: {
+         type: Date,
+         default: Date.now,
+         expires: '1d'
+      }*/
 });
 
 module.exports = mongoose.model('Venue', Venue);

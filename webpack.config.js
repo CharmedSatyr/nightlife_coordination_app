@@ -1,17 +1,16 @@
-const path = require('path'); //Not sure why this is here.
-const webpack = require('webpack'); //Not sure why this is here.
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const webpack = require('webpack') //Not sure why this is here.
+const HTMLWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 module.exports = {
-   entry: __dirname + '/src/index.jsx',
+   entry: ['babel-polyfill', __dirname + '/client/src/index.jsx'],
    module: {
       rules: [{
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loader: 'babel-loader',
             options: {
-               presets: ['es2015', 'react']
+               presets: ['env', 'react']
             }
          },
          {
@@ -19,22 +18,7 @@ module.exports = {
             use: ['style-loader', 'css-loader']
          }, {
             test: /\.scss$/,
-            use: ExtractTextPlugin.extract({
-               fallback: 'style-loader',
-               publicPath: '../', //The Plugin assumes css is in the same directory as the html by default (?) and redoes paths!
-               use: [{
-                  loader: 'css-loader',
-                  options: {
-                     minimize: true
-                  }
-               }, {
-                  loader: 'sass-loader',
-                  options: {
-                     minimize: true
-                  }
-
-               }]
-            })
+            use: ['style-loader', 'css-loader', 'sass-loader']
          }, {
             test: /\.(jpg|png|gif)$/,
             loader: 'url-loader',
@@ -55,8 +39,8 @@ module.exports = {
       ]
    },
    output: {
-      filename: 'js/bundle.min.js',
-      path: __dirname + '/views'
+      path: __dirname + '/client/views/js',
+      filename: 'client.bundle.js'
    },
    plugins: [
       /*    new webpack.DefinePlugin({ //This streamlines minification and gets rid of *.min.js console warnings for UglifyJsPlugin
@@ -66,12 +50,9 @@ module.exports = {
           }),
       new webpack.optimize.UglifyJsPlugin(),*/
       new HTMLWebpackPlugin({
-         template: __dirname + '/src/index.html',
-         filename: __dirname + '/views' + '/index.html',
+         template: __dirname + '/client/src/' + 'index.html',
+         filename: __dirname + '/client/views/' + 'index.html',
          inject: 'body'
-      }),
-      new ExtractTextPlugin({
-         filename: 'styles/[name]+[contenthash].min.css'
       })
    ]
-};
+}
