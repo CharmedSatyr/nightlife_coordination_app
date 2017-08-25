@@ -1,24 +1,66 @@
 //FONTS
-@import url('https://fonts.googleapis.com/css?family=Architects+Daughter|Luckiest+Guy|Monoton');
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter|Luckiest+Guy');
 $arch: 'Architects Daughter', cursive;
-$mon: 'Monoton', cursive;
 $luck: 'Luckiest Guy', cursive;
 
 //COLORS
 $b: #56c0dd;
-$dark: #050505;
+$dark: #333333;
 $light: #f6f7ea;
-$red: #c14354;
+$red: #d32323;
 body {
-  text-align: center;
   background: $red url('../img/club.jpg') fixed center top;
+  color: $dark;
+  font-size: 24px;
+  text-align: center;
+  text-shadow: 0 0 3px $light, 1px 1px $light, -1px -1px $light, 1px -1px $light,
+    -1px 1px $light;
 }
 
 h1,
 h3 {
   color: $b;
   font-family: $luck;
-  text-shadow: 1px 1px $dark;
+  text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
+    -1px 1px $dark;
+}
+h1 {
+  font-size: 60px;
+}
+h3 {
+  font-size: 40px;
+}
+.scene {
+  color: $light;
+  text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
+    -1px 1px $dark;
+}
+
+input {
+  border-radius: 4px;
+  height: 24px;
+  width: 50vw;
+  box-shadow: inset 0 0 3px $dark;
+}
+
+.go {
+  background: $red;
+  border-radius: 50px;
+  box-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
+    -1px 1px $dark;
+  font-family: $arch;
+  font-size: 20px;
+  font-weight: 600;
+  height: 40px;
+  margin-bottom: -2px;
+  margin-left: -8px;
+}
+.yelp {
+  height: 60px;
+}
+
+.G_logo {
+  height: 90px;
 }
 
 .results-wrapper {
@@ -26,23 +68,25 @@ h3 {
   display: flex;
   flex-direction: column;
   font-family: $arch;
-  margin-top: 2vh;
 
   .result {
     align-items: center;
-    background: rgba(50, 50, 50, 1.0);
+    background: rgba(50, 50, 50, 0.95);
     border: 1px solid $red;
     border-radius: 4px;
     color: $light;
     display: flex;
-    font-size: 20px;
+    font-size: 22px;
     justify-content: space-between;
     margin: 5px;
     padding: 20px;
+    text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
+      -1px 1px $dark;
+
     width: 60vw;
 
     small {
-      font-size: 12px;
+      font-size: 14px;
     }
 
     .nameBox {
@@ -55,25 +99,8 @@ h3 {
       float: right;
       font-style: italic;
       margin-right: 10px;
+      text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
+        -1px 1px $dark;
     }
   }
 }
-/*
-.example-enter {
-  opacity: 0.01;
-}
-
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-
-.example-leave {
-  opacity: 1;
-}
-
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}
-*/

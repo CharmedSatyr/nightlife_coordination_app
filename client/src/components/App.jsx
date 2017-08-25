@@ -10,6 +10,7 @@ import common from '../common/common.jsx'
 import Result from './Result.jsx'
 import GitHub_btn from './GitHub-btn.jsx'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Yelp from '../img/Yelp_trademark_RGB_outline.png'
 
 //Variable
 const lastLocation =
@@ -55,10 +56,10 @@ export default class App extends Component {
       }
     })
 
-    // DOESN'T PASS AUTHENTICATION!
-    /*  fetch('/api/user/:id', {
+    /*    // DOESN'T PASS AUTHENTICATION!
+    fetch('/api/user/:id', {
       credentials: 'include', //true
-      mode: 'cors', //'same-origin'
+      mode: 'same-origin', //'cors',
       method: 'GET',
       headers: {
         Accept: 'application/json',
@@ -101,22 +102,27 @@ export default class App extends Component {
         <header>
           <h1>Charmed Nightlife Coordination App</h1>
           <h3 />
-          {<GitHub_btn permissions={this.state.permissions} />}
         </header>
 
         <main>
-          <h3>
+          <h3 className="scene">
             Your scene: {this.state.location}
           </h3>
           <input
             id="locationSubmitBox"
-            placeholder="Search locations here..."
+            placeholder=" Search locations here..."
             type="text"
           />
-          <button onClick={this.handleSubmit}>Search</button>
-          <br />
+          <button className="go" onClick={this.handleSubmit}>
+            GO
+          </button>
           <div className="results-wrapper">
+            Results from{' '}
+            <a href="https://www.yelp.com">
+              <img className="yelp" src={Yelp} />
+            </a>
             <h3>
+              <GitHub_btn permissions={this.state.permissions} />
               {this.state.user}
             </h3>
             <ReactCSSTransitionGroup

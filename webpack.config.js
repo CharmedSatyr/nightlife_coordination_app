@@ -1,4 +1,5 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
   entry: ['babel-polyfill', __dirname + '/client/src/index.jsx'],
@@ -44,12 +45,13 @@ module.exports = {
     filename: 'js/client.bundle.js' //This puts the client bundle into js but allows other resources to go into the folders specified in their paths
   },
   plugins: [
-    /*    new webpack.DefinePlugin({ //This streamlines minification and gets rid of *.min.js console warnings for UglifyJsPlugin
-            'process.env': {
-              NODE_ENV: JSON.stringify('production')
-            }
-          }),
-      new webpack.optimize.UglifyJsPlugin(),*/
+    new webpack.DefinePlugin({
+      //This streamlines minification and gets rid of *.min.js console warnings for UglifyJsPlugin
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin(),
     new HTMLWebpackPlugin({
       title: 'Charmed Nightlife',
       template: __dirname + '/client/src/' + 'index.html',

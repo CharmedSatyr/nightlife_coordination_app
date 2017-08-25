@@ -26,11 +26,8 @@ module.exports = (app, passport) => {
         name_view = req.user.github.displayName
       } else if (req.user.github.username) {
         name_view = req.user.github.username
-      } else if (req.user.twitter.displayName) {
-        name_view = req.user.twitter.displayName
-      } else if (req.user.twitter.username) {
-        name_view = req.user.twitter.username
       }
+
       console.log('USER:', name_view)
       return next()
     } else {

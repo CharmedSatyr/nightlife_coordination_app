@@ -10,7 +10,7 @@ import common from '../common/common.jsx'
 export default class Result extends Component {
   constructor(props) {
     super(props)
-    this.state = { numAttending: 'Loading...' }
+    this.state = { numAttending: '...' }
     this.addAttendee = this.addAttendee.bind(this)
     this.numAttending = this.numAttending.bind(this)
   }

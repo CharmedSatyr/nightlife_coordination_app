@@ -15,8 +15,11 @@ const app = express()
 
 /*** GENERAL TOOLS ***/
 const path = process.cwd()
-const morgan = require('morgan')
-app.use(morgan('dev'))
+
+if (process.env.NODE_ENV === 'development') {
+  const morgan = require('morgan')
+  app.use(morgan('tiny'))
+}
 require('dotenv').load()
 
 /*** VIEW ENGINE ***/
