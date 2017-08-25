@@ -48,9 +48,17 @@ export default class Result extends Component {
   render() {
     return (
       <div className="result" onClick={this.addAttendee}>
-        {this.props.item.name}
-        <div className="numAttendingBox">
+        <div className="nameBox">
+          {this.props.item.name}
+          <small>
+            {this.props.item.location.display_address.map(
+              item => ' ' + item + ' '
+            )}
+          </small>
+        </div>
+        <div className="numBox">
           {this.state.numAttending}
+          <small> others joining</small>
         </div>
       </div>
     )

@@ -1,26 +1,79 @@
+//FONTS
+@import url('https://fonts.googleapis.com/css?family=Architects+Daughter|Luckiest+Guy|Monoton');
+$arch: 'Architects Daughter', cursive;
+$mon: 'Monoton', cursive;
+$luck: 'Luckiest Guy', cursive;
+
+//COLORS
+$b: #56c0dd;
+$dark: #050505;
+$light: #f6f7ea;
+$red: #c14354;
 body {
   text-align: center;
+  background: $red url('../img/club.jpg') fixed center top;
+}
+
+h1,
+h3 {
+  color: $b;
+  font-family: $luck;
+  text-shadow: 1px 1px $dark;
 }
 
 .results-wrapper {
   align-items: center;
   display: flex;
   flex-direction: column;
+  font-family: $arch;
   margin-top: 2vh;
 
   .result {
+    align-items: center;
+    background: rgba(50, 50, 50, 1.0);
+    border: 1px solid $red;
     border-radius: 4px;
-    border: 1px solid red;
-    height: 50px;
+    color: $light;
+    display: flex;
+    font-size: 20px;
+    justify-content: space-between;
     margin: 5px;
-    width: 300px;
+    padding: 20px;
+    width: 60vw;
 
-    .numAttendingBox {
-      float: right;
+    small {
+      font-size: 12px;
+    }
+
+    .nameBox {
+      float: left;
       margin-left: 10px;
-      margin-right: 2px;
+      text-align: left;
+    }
+    .numBox {
+      color: $b;
+      float: right;
       font-style: italic;
-      color: teal !important;
+      margin-right: 10px;
     }
   }
 }
+/*
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+*/

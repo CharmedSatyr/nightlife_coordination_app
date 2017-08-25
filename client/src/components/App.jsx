@@ -9,9 +9,11 @@ import common from '../common/common.jsx'
 //Components
 import Result from './Result.jsx'
 import GitHub_btn from './GitHub-btn.jsx'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 //Variable
-const lastLocation = localStorage.getItem('nightlife_location') || null
+const lastLocation =
+  localStorage.getItem('nightlife_location') || 'Search your location!'
 
 export default class App extends Component {
   constructor(props) {
@@ -54,8 +56,14 @@ export default class App extends Component {
     })
 
     // DOESN'T PASS AUTHENTICATION!
-    /*    fetch('/api/user/:id', {
-      credentials: 'include'
+    /*  fetch('/api/user/:id', {
+      credentials: 'include', //true
+      mode: 'cors', //'same-origin'
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
     })
       .then(response => {
         if (response.length < 25) {
@@ -84,20 +92,22 @@ export default class App extends Component {
     }
   }
   render() {
+    const results = this.state.venues.map((item, index) =>
+      <Result permissions={this.state.permissions} key={index} item={item} />
+    )
+
     return (
       <div>
         <header>
           <h1>Charmed Nightlife Coordination App</h1>
-          <h4>
-            {this.state.user}
-          </h4>
+          <h3 />
           {<GitHub_btn permissions={this.state.permissions} />}
         </header>
 
         <main>
-          <h1>
+          <h3>
             Your scene: {this.state.location}
-          </h1>
+          </h3>
           <input
             id="locationSubmitBox"
             placeholder="Search locations here..."
@@ -106,16 +116,15 @@ export default class App extends Component {
           <button onClick={this.handleSubmit}>Search</button>
           <br />
           <div className="results-wrapper">
-            Results:
-            {this.state.venues.map((item, index) => {
-              return (
-                <Result
-                  permissions={this.state.permissions}
-                  key={index}
-                  item={item}
-                />
-              )
-            })}
+            <h3>
+              {this.state.user}
+            </h3>
+            <ReactCSSTransitionGroup
+              transitionName="example"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}>
+              {results}
+            </ReactCSSTransitionGroup>
           </div>
         </main>
 

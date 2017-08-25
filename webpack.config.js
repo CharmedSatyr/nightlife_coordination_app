@@ -40,8 +40,8 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + '/client/views/js',
-    filename: 'client.bundle.js'
+    path: __dirname + '/client/views',
+    filename: 'js/client.bundle.js' //This puts the client bundle into js but allows other resources to go into the folders specified in their paths
   },
   plugins: [
     /*    new webpack.DefinePlugin({ //This streamlines minification and gets rid of *.min.js console warnings for UglifyJsPlugin

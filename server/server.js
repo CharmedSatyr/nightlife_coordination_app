@@ -25,7 +25,7 @@ app.engine('html', (path, option, cb) => {})
 
 /*** MIDDLEWARE ***/
 app.use('/js', express.static(path + '/client/views/js')) //The first argument creates the virtual directory used in index.html
-app.use('/resources', express.static(path + '/client/views/resources')) //The first argument creates the virtual directory used in index.html
+app.use('/img', express.static(path + '/client/views/img')) //The first argument creates the virtual directory used in index.html
 //app.use(express.static(path + '/client/views')) //The first argument creates the virtual directory used in index.html
 
 /*** MONGOOSE ***/

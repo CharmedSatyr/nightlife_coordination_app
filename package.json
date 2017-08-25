@@ -41,6 +41,7 @@
     "passport-github2": "^0.1.10",
     "passport-twitter": "^1.0.4",
     "react": "^15.5.4",
+    "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.5.4",
     "react-transition-group": "^2.2.0"
   },
