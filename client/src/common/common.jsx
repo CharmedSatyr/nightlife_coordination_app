@@ -37,7 +37,7 @@ const processStatus = response => {
 }
 
 const f = (url, method, callback) => {
-  fetch(url, { method: method })
+  fetch(url, { method: method, credentials: 'include' })
     .then(processStatus)
     .then(response => response.json())
     .then(response => callback(response))

@@ -6524,7 +6524,7 @@ var processStatus = function processStatus(response) {
 };
 
 var f = function f(url, method, callback) {
-  fetch(url, { method: method }).then(processStatus).then(function (response) {
+  fetch(url, { method: method, credentials: 'include' }).then(processStatus).then(function (response) {
     return response.json();
   }).then(function (response) {
     return callback(response);
@@ -13517,8 +13517,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(96);
@@ -13565,7 +13563,8 @@ var App = function (_Component) {
     _this.state = {
       location: lastLocation, //Use local storage to save this for each user
       venues: [],
-      user: '?'
+      user: 'Log in to share your plans!',
+      permissions: false
     };
     _this.handleSubmit = _this.handleSubmit.bind(_this);
     return _this;
@@ -13583,38 +13582,50 @@ var App = function (_Component) {
     key: 'saveToLocal',
     value: function saveToLocal(c) {
       localStorage.setItem('nightlife_location', c);
-      console.log('Saving location:', c);
+      console.log('Enjoy ' + c + '!');
+    }
+  }, {
+    key: 'getVenues',
+    value: function getVenues(c) {
+      var _this2 = this;
+
+      if (c) {
+        _common2.default.f('/api/' + c, 'GET', function (response) {
+          _this2.setState({ venues: response });
+        });
+      }
     }
   }, {
     key: 'getUser',
     value: function getUser() {
-      var _this2 = this;
+      var _this3 = this;
 
-      /* DOESN'T PASS AUTHENTICATION!
-              fetch('/api/user/:id', { method: 'GET' })
-                 .then(response => console.log('Regular fetch, no JSON:', response))
-                 // .then(data => data.json())
-                 // .then(json => console.log('Regular fetch, JSON:', json))
-                 .catch(err => console.error('Error:', err))
-        */
       _common2.default.ajaxRequest('GET', '/api/user/:id', function (response) {
-        console.log(typeof response === 'undefined' ? 'undefined' : _typeof(response));
-        console.log('response from ajax:', response);
-        //         if (response === 'string') {
-        _this2.setState({
-          user: response
-        });
-        //       }
+        if (response.length < 25) {
+          var data = JSON.parse(response);
+          _this3.setState({
+            user: 'YOLO, ' + data + '! Where are you going tonight?',
+            permissions: true
+          });
+        }
       });
 
-      /* DOESN'T PASS AUTHENTICATION!
-              fetch('/api/user/:id', { method: 'GET' })
-                 .then(response => console.log('Regular fetch, no JSON:', response))
-                 // .then(data => data.json())
-                 // .then(json => console.log('Regular fetch, JSON:', json))
-                 .catch(err => console.error('Error:', err))
-       */
-      /* DOESN'T WORK!
+      // DOESN'T PASS AUTHENTICATION!
+      /*    fetch('/api/user/:id', {
+        credentials: 'include'
+      })
+        .then(response => {
+          if (response.length < 25) {
+            const data = response.json()
+            this.setState({
+              user: 'YOLO, ' + data + '! Where are you going tonight?',
+              permissions: true
+            })
+          }
+        })
+        .catch(err => console.error('Error:', err))
+      */
+      /* DOESN'T WORK - despite loading babel-polyfill and babel-preset-env!
            async function a() {
               const user = await fetch('/api/user/:id')
               //	this.setState({ user: user })
@@ -13623,30 +13634,11 @@ var App = function (_Component) {
            a();*/
     }
   }, {
-    key: 'getVenues',
-    value: function getVenues(c) {
-      var _this3 = this;
-
-      if (c) {
-        _common2.default.f('/api/' + c, 'GET', function (response) {
-          _this3.setState({ venues: response });
-        });
-      }
-    }
-  }, {
-    key: 'userTest',
-    value: function userTest() {
-      /*      common.f('/userTest', 'GET', response => {
-                 console.log(response);
-              })*/
-      this.getUser();
-    }
-  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       this.getUser();
       if (lastLocation) {
-        console.log('Last location:', lastLocation);
+        console.log('Having fun in ' + lastLocation + '?');
         this.getVenues(lastLocation);
       }
     }
@@ -13669,27 +13661,24 @@ var App = function (_Component) {
           _react2.default.createElement(
             'h4',
             null,
-            'Do I know you? Your name is... ',
             this.state.user
           ),
-          _react2.default.createElement('br', null),
-          _react2.default.createElement(_GitHubBtn2.default, null)
+          _react2.default.createElement(_GitHubBtn2.default, { permissions: this.state.permissions })
         ),
         _react2.default.createElement(
           'main',
           null,
           _react2.default.createElement(
-            'p',
-            null,
-            'Type your location below to see nightlife in your area.'
-          ),
-          _react2.default.createElement(
             'h1',
             null,
-            'Location: ',
+            'Your scene: ',
             this.state.location
           ),
-          _react2.default.createElement('input', { id: 'locationSubmitBox', type: 'text' }),
+          _react2.default.createElement('input', {
+            id: 'locationSubmitBox',
+            placeholder: 'Search locations here...',
+            type: 'text'
+          }),
           _react2.default.createElement(
             'button',
             { onClick: this.handleSubmit },
@@ -13697,26 +13686,16 @@ var App = function (_Component) {
           ),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
-            'button',
-            { onClick: this.userTest.bind(this) },
-            'User Test'
-          ),
-          _react2.default.createElement(
             'div',
-            null,
-            _react2.default.createElement(
-              'div',
-              null,
-              'Results:',
-              this.state.venues.map(function (item, index) {
-                return _react2.default.createElement(_Result2.default, {
-                  key: index,
-                  zip: item.location.zip_code,
-                  location: _this4.state.location,
-                  item: item
-                });
-              })
-            )
+            { className: 'results-wrapper' },
+            'Results:',
+            this.state.venues.map(function (item, index) {
+              return _react2.default.createElement(_Result2.default, {
+                permissions: _this4.state.permissions,
+                key: index,
+                item: item
+              });
+            })
           )
         ),
         _react2.default.createElement('footer', null)
@@ -13742,8 +13721,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = __webpack_require__(96);
 
 var _react2 = _interopRequireDefault(_react);
@@ -13754,56 +13731,34 @@ var _common2 = _interopRequireDefault(_common);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+//Component
+var GitHub_btn = function GitHub_btn(_ref) {
+  var permissions = _ref.permissions;
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+  return _react2.default.createElement(
+    'div',
+    null,
+    permissions ? _react2.default.createElement(
+      'a',
+      { href: '/logout' },
+      _react2.default.createElement(
+        'button',
+        null,
+        'GitHub Logout'
+      )
+    ) : _react2.default.createElement(
+      'a',
+      { href: '/auth/github' },
+      _react2.default.createElement(
+        'button',
+        null,
+        'GitHub Login'
+      )
+    )
+  );
+};
 
 //Functions
-
-
-//Component
-var GitHub_btn = function (_Component) {
-  _inherits(GitHub_btn, _Component);
-
-  function GitHub_btn(props) {
-    _classCallCheck(this, GitHub_btn);
-
-    return _possibleConstructorReturn(this, (GitHub_btn.__proto__ || Object.getPrototypeOf(GitHub_btn)).call(this, props));
-  }
-
-  _createClass(GitHub_btn, [{
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'a',
-          { href: '/auth/github' },
-          _react2.default.createElement(
-            'button',
-            null,
-            'GitHub Login'
-          )
-        ),
-        _react2.default.createElement(
-          'a',
-          { href: '/logout' },
-          _react2.default.createElement(
-            'button',
-            null,
-            'GitHub Logout'
-          )
-        )
-      );
-    }
-  }]);
-
-  return GitHub_btn;
-}(_react.Component);
-
 exports.default = GitHub_btn;
 
 /***/ }),
@@ -13860,7 +13815,7 @@ var Result = function (_Component) {
     value: function numAttending() {
       var _this2 = this;
 
-      var venueURL = '/api/' + this.props.location + '/' + this.props.zip + '/' + this.props.item.name;
+      var venueURL = '/api/venue/' + this.props.item.id;
 
       _common2.default.f(venueURL, 'GET', function (response) {
         _this2.setState({
@@ -13873,22 +13828,23 @@ var Result = function (_Component) {
     value: function addAttendee() {
       var _this3 = this;
 
-      var venueURL = '/api/' + this.props.location + '/' + this.props.zip + '/' + this.props.item.name;
+      if (this.props.permissions) {
+        var venueURL = '/api/venue/' + this.props.item.id;
 
-      _common2.default.ajaxRequest('POST', venueURL, function (response) {
-        console.log('Response:', response);
-        var data = JSON.parse(response);
-        console.log('Parsed data:', data);
-        if (!(typeof data === 'number')) {
-          console.log('Error:', data);
-        } else {
-          _this3.setState({
-            numAttending: data
-          });
-        }
-      });
-
-      /* See App.jsx for different fetch approaches... they stopped working since Auth */
+        _common2.default.ajaxRequest('POST', venueURL, function (response) {
+          var data = JSON.parse(response);
+          if (!(typeof data === 'number')) {
+            console.log('Error:', data);
+          } else {
+            _this3.setState({
+              numAttending: data
+            });
+          }
+        });
+        /* See App.jsx for different fetch approaches... they stopped working since Auth */
+      } else {
+        console.log('Please log in first!');
+      }
     }
   }, {
     key: 'componentWillMount',
@@ -19401,7 +19357,7 @@ exports = module.exports = __webpack_require__(417)(undefined);
 
 
 // module
-exports.push([module.i, ".result {\n  border: 1px solid red;\n  width: 300px;\n  height: 20px; }\n\n.numAttendingBox {\n  float: right;\n  margin-left: 10px;\n  font-style: italic;\n  color: teal !important; }\n", ""]);
+exports.push([module.i, "body {\n  text-align: center; }\n\n.results-wrapper {\n  align-items: center;\n  display: flex;\n  flex-direction: column;\n  margin-top: 2vh; }\n  .results-wrapper .result {\n    border-radius: 4px;\n    border: 1px solid red;\n    height: 50px;\n    margin: 5px;\n    width: 300px; }\n    .results-wrapper .result .numAttendingBox {\n      float: right;\n      margin-left: 10px;\n      margin-right: 2px;\n      font-style: italic;\n      color: teal !important; }\n", ""]);
 
 // exports
 

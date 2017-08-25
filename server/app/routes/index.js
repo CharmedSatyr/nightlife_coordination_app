@@ -2,6 +2,8 @@
 
 const path = process.cwd()
 
+const Venue = require('../models/Venue.js')
+
 //Controllers
 const VenueController = require('../controllers/venueController.server.js')
 
@@ -9,34 +11,56 @@ const VenueController = require('../controllers/venueController.server.js')
 const venueController = new VenueController()
 
 module.exports = (app, passport) => {
+  let name_view //This is the name that will display in the client view
+
+  app.use((req, res, next) => {
+    res.locals.name_view = name_view //Allows session's name_view to be accessed by controllers
+    next()
+  })
+
+  //Auth check
   const permissions = (req, res, next) => {
     if (req.isAuthenticated()) {
-      console.log('YOU ARE NOW LOGGED IN!')
+      console.log('AUTHORIZATION SUCCESSFUL')
+      if (req.user.github.displayName) {
+        name_view = req.user.github.displayName
+      } else if (req.user.github.username) {
+        name_view = req.user.github.username
+      } else if (req.user.twitter.displayName) {
+        name_view = req.user.twitter.displayName
+      } else if (req.user.twitter.username) {
+        name_view = req.user.twitter.username
+      }
+      console.log('USER:', name_view)
       return next()
     } else {
-      console.log("YOU AIN'T LOGGED IN, BITCH")
+      console.log('USER NOT AUTHORIZED')
       res.redirect('/login')
     }
   }
 
-  //      1. User searches a Location
+  //Root view
   app.route('/').get(permissions, (req, res) => {
     res.sendFile(path + '/client/views/index.html')
   })
 
+  //Login view
   app.route('/login').get((req, res) => {
     res.sendFile(path + '/client/views/login.html')
   })
 
+  //Passport logout
   app.route('/logout').get((req, res) => {
     req.logout()
     res.redirect('/login')
   })
 
+  //Client-side API path to see name_view in React
   app.route('/api/user/:id').get(permissions, (req, res) => {
-    res.json(req.user.github.username)
+    res.json(name_view)
   })
 
+  //GitHub and Passport authentication
   app.route('/auth/github').get(passport.authenticate('github'))
 
   app.route('/auth/github/callback').get(
@@ -46,28 +70,12 @@ module.exports = (app, passport) => {
     })
   )
 
+  //Use Yelp! API to get locations
   app.route('/api/:location').get(venueController.getLocation)
 
-  app.route('/userTest').get(venueController.userTest)
-
-  /*
-      app.route('/api/:id/:location/:zip/:venue')
-         .get((req, res) => {
-            console.log('GET: THIS IS HOT HOT FIRE, ' + req.params.id)
-            res.json('GET: THIS IS HOT HOT FIRE, ' + req.params.id)
-         })
-         .post(permissions, (req, res) => {
-            console.log('POST: THIS IS HOT HOT FIRE, ' + req.params.id)
-            res.json('POST: THIS IS HOT HOT FIRE, ' + req.params.id)
-         })
-         .delete(permissions, (req, res) => {
-            console.log('DELETE: THIS IS HOT HOT FIRE, ' + req.params.id)
-            res.json('DELETE: THIS IS HOT HOT FIRE, ' + req.params.id)
-         })
-   */
-
+  //Client-side API to get or modify database information for venues
   app
-    .route('/api/:location/:zip/:venue')
+    .route('/api/venue/:id')
     .get(venueController.getVenue)
-    .post(permissions, venueController.authClickVenue)
+    .post(permissions, venueController.clickVenue)
 }

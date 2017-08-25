@@ -20,7 +20,8 @@ export default class App extends Component {
     this.state = {
       location: lastLocation, //Use local storage to save this for each user
       venues: [],
-      user: '?'
+      user: 'Log in to share your plans!',
+      permissions: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -32,40 +33,7 @@ export default class App extends Component {
   }
   saveToLocal(c) {
     localStorage.setItem('nightlife_location', c)
-    console.log('Saving location:', c)
-  }
-  getUser() {
-    /* DOESN'T PASS AUTHENTICATION!
-            fetch('/api/user/:id', { method: 'GET' })
-               .then(response => console.log('Regular fetch, no JSON:', response))
-               // .then(data => data.json())
-               // .then(json => console.log('Regular fetch, JSON:', json))
-               .catch(err => console.error('Error:', err))
-      */
-    common.ajaxRequest('GET', '/api/user/:id', response => {
-      console.log(typeof response)
-      console.log('response from ajax:', response)
-      //         if (response === 'string') {
-      this.setState({
-        user: response
-      })
-      //       }
-    })
-
-    /* DOESN'T PASS AUTHENTICATION!
-            fetch('/api/user/:id', { method: 'GET' })
-               .then(response => console.log('Regular fetch, no JSON:', response))
-               // .then(data => data.json())
-               // .then(json => console.log('Regular fetch, JSON:', json))
-               .catch(err => console.error('Error:', err))
-     */
-    /* DOESN'T WORK!
-         async function a() {
-            const user = await fetch('/api/user/:id')
-            //	this.setState({ user: user })
-            console.log('response from async:', user);
-         }
-         a();*/
+    console.log('Enjoy ' + c + '!')
   }
   getVenues(c) {
     if (c) {
@@ -74,16 +42,44 @@ export default class App extends Component {
       })
     }
   }
-  userTest() {
-    /*      common.f('/userTest', 'GET', response => {
-               console.log(response);
-            })*/
-    this.getUser()
+  getUser() {
+    common.ajaxRequest('GET', '/api/user/:id', response => {
+      if (response.length < 25) {
+        const data = JSON.parse(response)
+        this.setState({
+          user: 'YOLO, ' + data + '! Where are you going tonight?',
+          permissions: true
+        })
+      }
+    })
+
+    // DOESN'T PASS AUTHENTICATION!
+    /*    fetch('/api/user/:id', {
+      credentials: 'include'
+    })
+      .then(response => {
+        if (response.length < 25) {
+          const data = response.json()
+          this.setState({
+            user: 'YOLO, ' + data + '! Where are you going tonight?',
+            permissions: true
+          })
+        }
+      })
+      .catch(err => console.error('Error:', err))
+*/
+    /* DOESN'T WORK - despite loading babel-polyfill and babel-preset-env!
+         async function a() {
+            const user = await fetch('/api/user/:id')
+            //	this.setState({ user: user })
+            console.log('response from async:', user);
+         }
+         a();*/
   }
   componentWillMount() {
     this.getUser()
     if (lastLocation) {
-      console.log('Last location:', lastLocation)
+      console.log('Having fun in ' + lastLocation + '?')
       this.getVenues(lastLocation)
     }
   }
@@ -93,35 +89,33 @@ export default class App extends Component {
         <header>
           <h1>Charmed Nightlife Coordination App</h1>
           <h4>
-            Do I know you? Your name is... {this.state.user}
+            {this.state.user}
           </h4>
-          <br />
-          {<GitHub_btn />}
+          {<GitHub_btn permissions={this.state.permissions} />}
         </header>
 
         <main>
-          <p>Type your location below to see nightlife in your area.</p>
           <h1>
-            Location: {this.state.location}
+            Your scene: {this.state.location}
           </h1>
-          <input id="locationSubmitBox" type="text" />
+          <input
+            id="locationSubmitBox"
+            placeholder="Search locations here..."
+            type="text"
+          />
           <button onClick={this.handleSubmit}>Search</button>
           <br />
-          <button onClick={this.userTest.bind(this)}>User Test</button>
-          <div>
-            <div>
-              Results:
-              {this.state.venues.map((item, index) => {
-                return (
-                  <Result
-                    key={index}
-                    zip={item.location.zip_code}
-                    location={this.state.location}
-                    item={item}
-                  />
-                )
-              })}
-            </div>
+          <div className="results-wrapper">
+            Results:
+            {this.state.venues.map((item, index) => {
+              return (
+                <Result
+                  permissions={this.state.permissions}
+                  key={index}
+                  item={item}
+                />
+              )
+            })}
           </div>
         </main>
 

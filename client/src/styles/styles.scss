@@ -1,12 +1,26 @@
-.result {
-  border: 1px solid red;
-  width: 300px;
-  height: 20px;
+body {
+  text-align: center;
 }
 
-.numAttendingBox {
-  float: right;
-  margin-left: 10px;
-  font-style: italic;
-  color: teal !important;
+.results-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2vh;
+
+  .result {
+    border-radius: 4px;
+    border: 1px solid red;
+    height: 50px;
+    margin: 5px;
+    width: 300px;
+
+    .numAttendingBox {
+      float: right;
+      margin-left: 10px;
+      margin-right: 2px;
+      font-style: italic;
+      color: teal !important;
+    }
+  }
 }

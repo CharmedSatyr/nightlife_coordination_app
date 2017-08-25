@@ -15,13 +15,7 @@ export default class Result extends Component {
     this.numAttending = this.numAttending.bind(this)
   }
   numAttending() {
-    const venueURL =
-      '/api/' +
-      this.props.location +
-      '/' +
-      this.props.zip +
-      '/' +
-      this.props.item.name
+    const venueURL = '/api/venue/' + this.props.item.id
 
     common.f(venueURL, 'GET', response => {
       this.setState({
@@ -30,28 +24,23 @@ export default class Result extends Component {
     })
   }
   addAttendee() {
-    const venueURL =
-      '/api/' +
-      this.props.location +
-      '/' +
-      this.props.zip +
-      '/' +
-      this.props.item.name
+    if (this.props.permissions) {
+      const venueURL = '/api/venue/' + this.props.item.id
 
-    common.ajaxRequest('POST', venueURL, response => {
-      console.log('Response:', response)
-      const data = JSON.parse(response)
-      console.log('Parsed data:', data)
-      if (!(typeof data === 'number')) {
-        console.log('Error:', data)
-      } else {
-        this.setState({
-          numAttending: data
-        })
-      }
-    })
-
-    /* See App.jsx for different fetch approaches... they stopped working since Auth */
+      common.ajaxRequest('POST', venueURL, response => {
+        const data = JSON.parse(response)
+        if (!(typeof data === 'number')) {
+          console.log('Error:', data)
+        } else {
+          this.setState({
+            numAttending: data
+          })
+        }
+      })
+      /* See App.jsx for different fetch approaches... they stopped working since Auth */
+    } else {
+      console.log('Please log in first!')
+    }
   }
   componentWillMount() {
     this.numAttending()
