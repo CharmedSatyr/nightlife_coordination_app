@@ -62,7 +62,8 @@ module.exports = {
       test: /\.(js|html)$/, //Defaults to all plugins
       algorithm: 'gzip',
       threshold: 10240,
-      minRatio: 0.8
+      minRatio: 0.8,
+      deleteOriginalAssets: false
     }),
     new HTMLWebpackPlugin({
       title: 'Charmed Nightlife',

@@ -10,7 +10,6 @@ User Story: As an unauthenticated user, when I login I should not have to search
 
 /*** EXPRESS ***/
 const express = require('express')
-const session = require('express-session')
 const app = express()
 
 /*** GENERAL TOOLS ***/
@@ -27,9 +26,23 @@ app.set('view engine', 'html')
 app.engine('html', (path, option, cb) => {})
 
 /*** MIDDLEWARE ***/
+const session = require('express-session')
 app.use('/js', express.static(path + '/client/views/js')) //The first argument creates the virtual directory used in index.html
 app.use('/img', express.static(path + '/client/views/img')) //The first argument creates the virtual directory used in index.html
-//app.use(express.static(path + '/client/views')) //The first argument creates the virtual directory used in index.html
+
+/*** COMPRESSION ***/
+const compression = require('compression')
+const shouldCompress = (req, res) => {
+  if (req.headers['x-no-compression']) {
+    // don't compress responses with this request header
+    return false
+  }
+
+  // fallback to standard filter function
+  return compression.filter(req, res)
+}
+
+app.use(compression({ filter: shouldCompress }))
 
 /*** MONGOOSE ***/
 const mongoose = require('mongoose')
