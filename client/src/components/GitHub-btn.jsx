@@ -14,14 +14,16 @@ const GitHub_btn = ({ permissions }) => {
   return (
     <div>
       {permissions
-        ? <a href="/logout">
-            <img
-              className="G_logo"
-              src={G_logo}
-              title="GitHub Logout"
-              name="GitHub Logout"
-            />
-          </a>
+        ? <div className="login">
+            <a href="/logout">
+              <img
+                className="G_logo"
+                src={G_logo}
+                title="GitHub Logout"
+                name="GitHub Logout"
+              />
+            </a>
+          </div>
         : <div className="login">
             <a href="/auth/github">
               <img

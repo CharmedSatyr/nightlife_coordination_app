@@ -6,10 +6,10 @@
   font-size: 40px;
   @include tshadow($dark);
   text-decoration: none;
-}
 
-.G_logo {
-  height: 40px;
-  margin: 4px;
-  margin-bottom: -4px;
+  .G_logo {
+    height: 40px;
+    margin: 4px;
+    margin-bottom: -4px;
+  }
 }
