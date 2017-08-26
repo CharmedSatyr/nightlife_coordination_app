@@ -80,16 +80,17 @@ export default class App extends Component {
             <h3 className="scene">
               Your scene: {this.state.location}
             </h3>
+
+            <input
+              id="locationSubmitBox"
+              placeholder=" Search locations here..."
+              type="text"
+            />
+            <button className="go" onClick={this.handleSubmit}>
+              GO
+            </button>
           </label>
 
-          <input
-            id="locationSubmitBox"
-            placeholder=" Search locations here..."
-            type="text"
-          />
-          <button className="go" onClick={this.handleSubmit}>
-            GO
-          </button>
           <div className="results-wrapper">
             <Yelp />
             <GitHub_btn
