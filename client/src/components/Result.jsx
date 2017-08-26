@@ -2,6 +2,7 @@
 
 //COMPONENTS
 import React, { Component } from 'react'
+import CountUp from 'react-countup'
 
 //FUNCTIONS
 import common from '../common/common.jsx'
@@ -57,7 +58,7 @@ export default class Result extends Component {
           </small>
         </div>
         <div className="numBox">
-          {this.state.numAttending}
+          <CountUp start={0} end={this.state.numAttending} />
           <small> others joining</small>
         </div>
       </div>
