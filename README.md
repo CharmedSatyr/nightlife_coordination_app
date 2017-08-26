@@ -24,12 +24,3 @@ See the project on Heroku at: https://charmed-polling.herokuapp.com/
 >9. Once you've finished implementing these user stories, click the "I've completed this challenge" button and enter the URLs for both your GitHub repository and your live app running on Heroku.
 
 >10. You can get feedback on your project by sharing it with your friends on Facebook.
-
-To Do:
-1. The text "Your Scene" should not appear until a location has been entered.
-2. 404 responses from Yelp! (e.g., when an invalid location is entered) should display a response in the UI.
-3. Convert images to WebP format
-4. Use local fonts rather than fonts.gstatic.com
-5. Serve properly sized/responsive images and text
-6. gzip text compression?
-7. Look into Service Workers/Progressive Web App standards

@@ -13,8 +13,7 @@ import Yelp from './Yelp.jsx'
 import common from '../common/common.jsx'
 
 //GLOBAL VARIABLE
-const lastLocation =
-  localStorage.getItem('nightlife_location') || 'Search your location!'
+const lastLocation = localStorage.getItem('nightlife_location')
 
 //MAIN
 export default class App extends Component {
@@ -22,7 +21,9 @@ export default class App extends Component {
     super(props)
 
     this.state = {
-      location: lastLocation, //Use local storage to save this for each user
+      location: lastLocation
+        ? 'Your scene: ' + lastLocation
+        : 'Search for your location!', //Use local storage to save this for each user
       venues: [],
       user: '',
       permissions: false
@@ -31,7 +32,7 @@ export default class App extends Component {
   }
   handleSubmit() {
     const location = document.getElementById('locationSubmitBox').value
-    this.setState({ location: location, venues: [] })
+    this.setState({ location: 'Your scene: ' + location, venues: [] })
     this.getVenues(location)
     this.saveToLocal(location)
   }
@@ -43,7 +44,11 @@ export default class App extends Component {
   getVenues(c) {
     if (c && c !== 'Search your location!') {
       common.f('/api/' + c, 'GET', response => {
-        this.setState({ venues: response })
+        if (response === 0) {
+          this.setState({ location: "Yelp isn't finding anything..." })
+        } else {
+          this.setState({ venues: response })
+        }
       })
     }
   }
@@ -68,7 +73,6 @@ export default class App extends Component {
     const results = this.state.venues.map((item, index) =>
       <Result permissions={this.state.permissions} key={index} item={item} />
     )
-
     return (
       <div>
         <header>
@@ -78,12 +82,12 @@ export default class App extends Component {
         <main>
           <label for="locationSubmitBox">
             <h3 className="scene">
-              Your scene: {this.state.location}
+              {this.state.location}
             </h3>
 
             <input
               id="locationSubmitBox"
-              placeholder=" Search locations here..."
+              placeholder=" Type a city here..."
               type="text"
             />
             <button className="go" onClick={this.handleSubmit}>

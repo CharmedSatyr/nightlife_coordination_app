@@ -32,6 +32,7 @@ class VenueController {
               ' nightlife REJECTED by Yelp! API...\n' +
               err
           )
+          res.json(0)
         })
     }
 

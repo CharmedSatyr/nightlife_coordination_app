@@ -1,4 +1,4 @@
-//FILES
+//IMPORTS except MEDIA OVERRIDES
 @import '_github-btn.scss';
 @import '_results.scss';
 @import '_slide-override.scss';
@@ -7,7 +7,7 @@
 
 //MAIN
 body {
-  background: $red url('../img/club.jpg') fixed center top;
+  background: $red url('../img/club-1920x1200.jpg') fixed center top;
   color: $dark;
   text-align: center;
 }
@@ -15,7 +15,7 @@ body {
 .title {
   color: $b;
   font-family: $luck;
-  font-size: 60px;
+  font-size: 54px;
   @include tshadow($dark);
 }
 
@@ -48,3 +48,6 @@ input {
   margin-left: -10px;
   cursor: pointer;
 }
+
+//MEDIA OVERRIDES
+@import '_media.scss';

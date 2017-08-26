@@ -6,7 +6,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.jsx?$/i,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
@@ -14,15 +14,15 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: ['style-loader', 'css-loader']
       },
       {
-        test: /\.scss$/,
+        test: /\.scss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(jpe?g|png|gif)$/i,
         loader: 'url-loader',
         options: {
           limit: 10000, //limit =< 10000 ? Data URL : fallback to file-loader
@@ -30,7 +30,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/i,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -42,15 +42,20 @@ module.exports = {
   },
   output: {
     path: __dirname + '/client/views',
-    filename: 'js/client.bundle.js' //This puts the client bundle into js but allows other resources to go into the folders specified in their paths
+    //    filename: 'js/client.bundle.min.js' //Dev. This puts the client bundle into js but allows other resources to go into the folders specified in their paths
+    filename: 'js/client.bundle.min.js' //production
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
+        //NODE_ENV: JSON.stringify('development')
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      sourceMap: true,
+      comments: false
+    }),
     new HTMLWebpackPlugin({
       title: 'Charmed Nightlife',
       template: __dirname + '/client/src/' + 'index.html',
