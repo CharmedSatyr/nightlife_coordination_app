@@ -1,0 +1,38 @@
+@import '_variables.scss';
+
+.results-wrapper {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  font-family: $arch;
+
+  .result {
+    align-items: center;
+    background: rgba(50, 50, 50, 0.95);
+    border: 1px solid $red;
+    border-radius: 4px;
+    color: $light;
+    display: flex;
+    font-size: 26px;
+    justify-content: space-between;
+    margin: 3px;
+    padding: 18px;
+    width: 60vw;
+
+    small {
+      font-size: 14px;
+    }
+
+    .nameBox {
+      float: left;
+      margin-left: 10px;
+      text-align: left;
+    }
+    .numBox {
+      color: $b;
+      float: right;
+      font-style: italic;
+      margin-right: 10px;
+    }
+  }
+}

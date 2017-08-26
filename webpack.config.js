@@ -46,7 +46,6 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      //This streamlines minification and gets rid of *.min.js console warnings for UglifyJsPlugin
       'process.env': {
         NODE_ENV: JSON.stringify('production')
       }

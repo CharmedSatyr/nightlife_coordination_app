@@ -1,21 +1,22 @@
 'use strict'
 
-//Packages
+//PACKAGES
 import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
-//Functions
-import common from '../common/common.jsx'
-
-//Components
+//COMPONENTS
 import Result from './Result.jsx'
 import GitHub_btn from './GitHub-btn.jsx'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import Yelp from '../img/Yelp_trademark_RGB_outline.png'
+import Yelp from './Yelp.jsx'
 
-//Variable
+//FUNCTIONS
+import common from '../common/common.jsx'
+
+//GLOBAL VARIABLE
 const lastLocation =
   localStorage.getItem('nightlife_location') || 'Search your location!'
 
+//MAIN
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -23,7 +24,7 @@ export default class App extends Component {
     this.state = {
       location: lastLocation, //Use local storage to save this for each user
       venues: [],
-      user: 'Log in to share your plans!',
+      user: '',
       permissions: false
     }
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -55,35 +56,6 @@ export default class App extends Component {
         })
       }
     })
-
-    /*    // DOESN'T PASS AUTHENTICATION!
-    fetch('/api/user/:id', {
-      credentials: 'include', //true
-      mode: 'same-origin', //'cors',
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => {
-        if (response.length < 25) {
-          const data = response.json()
-          this.setState({
-            user: 'YOLO, ' + data + '! Where are you going tonight?',
-            permissions: true
-          })
-        }
-      })
-      .catch(err => console.error('Error:', err))
-*/
-    /* DOESN'T WORK - despite loading babel-polyfill and babel-preset-env!
-         async function a() {
-            const user = await fetch('/api/user/:id')
-            //	this.setState({ user: user })
-            console.log('response from async:', user);
-         }
-         a();*/
   }
   componentWillMount() {
     this.getUser()
@@ -100,8 +72,7 @@ export default class App extends Component {
     return (
       <div>
         <header>
-          <h1>Charmed Nightlife Coordination App</h1>
-          <h3 />
+          <h1 className="title">Charmed Nightlife Coordination App</h1>
         </header>
 
         <main>
@@ -117,11 +88,8 @@ export default class App extends Component {
             GO
           </button>
           <div className="results-wrapper">
-            Results from{' '}
-            <a href="https://www.yelp.com">
-              <img className="yelp" src={Yelp} />
-            </a>
-            <h3>
+            <Yelp />
+            <h3 className="greeting">
               <GitHub_btn permissions={this.state.permissions} />
               {this.state.user}
             </h3>

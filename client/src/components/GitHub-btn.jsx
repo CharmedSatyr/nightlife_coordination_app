@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 import common from '../common/common.jsx'
 
 //Image
-import G_logo from '../img/github.png'
+import G_logo from '../img/GitHub-Mark-64px.png'
 
 //Component
 const GitHub_btn = ({ permissions }) => {
@@ -22,14 +22,16 @@ const GitHub_btn = ({ permissions }) => {
               name="GitHub Logout"
             />
           </a>
-        : <a href="/auth/github">
-            <img
-              className="G_logo"
-              src={G_logo}
-              title="Login with GitHub"
-              name="Login with GitHub"
-            />
-          </a>}
+        : <div className="login">
+            <a href="/auth/github">
+              <img
+                className="G_logo"
+                src={G_logo}
+                title="Login with GitHub"
+                name="Login with GitHub"
+              />Log in to share your plans!
+            </a>
+          </div>}
     </div>
   )
 }

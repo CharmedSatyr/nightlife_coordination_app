@@ -1,5 +1,34 @@
 'use strict'
 
+/*    // DOESN'T PASS AUTHENTICATION!
+fetch('/api/user/:id', {
+  credentials: 'include', //true
+  mode: 'same-origin', //'cors',
+  method: 'GET',
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
+  }
+})
+  .then(response => {
+    if (response.length < 25) {
+      const data = response.json()
+      this.setState({
+        user: 'YOLO, ' + data + '! Where are you going tonight?',
+        permissions: true
+      })
+    }
+  })
+  .catch(err => console.error('Error:', err))
+*/
+/* DOESN'T WORK - despite loading babel-polyfill and babel-preset-env!
+     async function a() {
+        const user = await fetch('/api/user/:id')
+        //	this.setState({ user: user })
+        console.log('response from async:', user);
+     }
+     a();*/
+
 //const appUrl = window.location.origin
 //const apiUrl = appUrl + '/api/:id';
 /*

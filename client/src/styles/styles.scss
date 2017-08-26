@@ -1,39 +1,28 @@
-//FONTS
-@import url('https://fonts.googleapis.com/css?family=Architects+Daughter|Luckiest+Guy');
-$arch: 'Architects Daughter', cursive;
-$luck: 'Luckiest Guy', cursive;
+//FILES
+@import '_github-btn.scss';
+@import '_results.scss';
+@import '_variables.scss';
+@import '_yelp.scss';
 
-//COLORS
-$b: #56c0dd;
-$dark: #333333;
-$light: #f6f7ea;
-$red: #d32323;
+//MAIN
 body {
   background: $red url('../img/club.jpg') fixed center top;
   color: $dark;
-  font-size: 24px;
   text-align: center;
-  text-shadow: 0 0 3px $light, 1px 1px $light, -1px -1px $light, 1px -1px $light,
-    -1px 1px $light;
 }
 
-h1,
-h3 {
+.title {
   color: $b;
   font-family: $luck;
-  text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
-    -1px 1px $dark;
-}
-h1 {
   font-size: 60px;
+  @include tshadow($dark);
 }
-h3 {
-  font-size: 40px;
-}
+
 .scene {
   color: $light;
-  text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
-    -1px 1px $dark;
+  font-family: $luck;
+  font-size: 40px;
+  @include tshadow($dark);
 }
 
 input {
@@ -46,8 +35,7 @@ input {
 .go {
   background: $red;
   border-radius: 50px;
-  box-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
-    -1px 1px $dark;
+  @include bshadow($dark);
   font-family: $arch;
   font-size: 20px;
   font-weight: 600;
@@ -55,52 +43,10 @@ input {
   margin-bottom: -2px;
   margin-left: -8px;
 }
-.yelp {
-  height: 60px;
-}
 
-.G_logo {
-  height: 90px;
-}
-
-.results-wrapper {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  font-family: $arch;
-
-  .result {
-    align-items: center;
-    background: rgba(50, 50, 50, 0.95);
-    border: 1px solid $red;
-    border-radius: 4px;
-    color: $light;
-    display: flex;
-    font-size: 22px;
-    justify-content: space-between;
-    margin: 5px;
-    padding: 20px;
-    text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
-      -1px 1px $dark;
-
-    width: 60vw;
-
-    small {
-      font-size: 14px;
-    }
-
-    .nameBox {
-      float: left;
-      margin-left: 10px;
-      text-align: left;
-    }
-    .numBox {
-      color: $b;
-      float: right;
-      font-style: italic;
-      margin-right: 10px;
-      text-shadow: 0 0 3px $dark, 1px 1px $dark, -1px -1px $dark, 1px -1px $dark,
-        -1px 1px $dark;
-    }
-  }
+.greeting {
+  color: $b;
+  font-family: $luck;
+  font-size: 40px;
+  @include tshadow($dark);
 }

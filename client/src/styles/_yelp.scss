@@ -1,0 +1,14 @@
+.yelp {
+  align-items: center;
+  display: flex;
+
+  .text {
+    font-size: 30px;
+    @include tshadow($light);
+  }
+
+  img {
+    height: 72px;
+    margin-top: -2px;
+  }
+}

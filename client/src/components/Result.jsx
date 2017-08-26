@@ -1,12 +1,12 @@
 'use strict'
 
-//Packages
+//COMPONENTS
 import React, { Component } from 'react'
 
-//Functions
+//FUNCTIONS
 import common from '../common/common.jsx'
 
-//Component
+//MAIN
 export default class Result extends Component {
   constructor(props) {
     super(props)
@@ -37,9 +37,9 @@ export default class Result extends Component {
           })
         }
       })
-      /* See App.jsx for different fetch approaches... they stopped working since Auth */
     } else {
       console.log('Please log in first!')
+      window.location = '/auth/github'
     }
   }
   componentWillMount() {
