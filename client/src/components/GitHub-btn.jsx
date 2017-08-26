@@ -10,7 +10,7 @@ import common from '../common/common.jsx'
 import G_logo from '../img/GitHub-Mark-64px.png'
 
 //Component
-const GitHub_btn = ({ permissions }) => {
+const GitHub_btn = ({ permissions, user }) => {
   return (
     <div>
       {permissions
@@ -21,7 +21,7 @@ const GitHub_btn = ({ permissions }) => {
                 src={G_logo}
                 title="GitHub Logout"
                 name="GitHub Logout"
-              />
+              />YOLO, {user}! Where are you going tonight?'
             </a>
           </div>
         : <div className="login">

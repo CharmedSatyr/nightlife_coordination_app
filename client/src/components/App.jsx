@@ -51,7 +51,7 @@ export default class App extends Component {
       if (response.length < 25) {
         const data = JSON.parse(response)
         this.setState({
-          user: 'YOLO, ' + data + '! Where are you going tonight?',
+          user: data,
           permissions: true
         })
       }
@@ -89,10 +89,10 @@ export default class App extends Component {
           </button>
           <div className="results-wrapper">
             <Yelp />
-            <h3 className="greeting">
-              <GitHub_btn permissions={this.state.permissions} />
-              {this.state.user}
-            </h3>
+            <GitHub_btn
+              permissions={this.state.permissions}
+              user={this.state.user}
+            />
             <ReactCSSTransitionGroup
               transitionName="example"
               transitionEnterTimeout={500}
