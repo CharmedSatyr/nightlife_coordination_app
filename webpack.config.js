@@ -1,3 +1,4 @@
+const CompressionPlugin = require('compression-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 
@@ -55,6 +56,13 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       comments: false
+    }),
+    new CompressionPlugin({
+      asset: '[path].gz[query]',
+      test: /\.(js|html)$/, //Defaults to all plugins
+      algorithm: 'gzip',
+      threshold: 10240,
+      minRatio: 0.8
     }),
     new HTMLWebpackPlugin({
       title: 'Charmed Nightlife',
