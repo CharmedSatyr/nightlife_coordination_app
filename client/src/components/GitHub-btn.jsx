@@ -21,7 +21,7 @@ const GitHub_btn = ({ permissions, user }) => {
                 src={G_logo}
                 title="GitHub Logout"
                 name="GitHub Logout"
-              />YOLO, {user}! Where are you going tonight?'
+              />YOLO, {user}! Where are you going tonight?
             </a>
           </div>
         : <div className="login">
