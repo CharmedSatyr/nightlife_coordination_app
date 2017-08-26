@@ -2,8 +2,7 @@
 
 @media screen and (max-width: 800px) {
   body {
-    background: $red url('../img/club-800x500.jpg') fixed center top;
-    background-size: cover;
+    background-image: url('../img/club-800x500.jpg');
   }
   .title {
     font-size: 32px;
@@ -20,13 +19,11 @@
 }
 @media screen and (min-width: 801px) {
   body {
-    background: $red url('../img/club-1200x750.jpg') fixed center top;
-    background-size: cover;
+    background-image: url('../img/club-1200x750.jpg');
   }
 }
 @media screen and (min-width: 1201px) {
   body {
-    background: $red url('../img/club-1920x1200.jpg') fixed center top;
-    background-size: cover;
+    background-image: url('../img/club-1920x1200.jpg');
   }
 }

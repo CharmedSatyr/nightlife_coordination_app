@@ -32,17 +32,7 @@ app.use('/img', express.static(path + '/client/views/img')) //The first argument
 
 /*** COMPRESSION ***/
 const compression = require('compression')
-const shouldCompress = (req, res) => {
-  if (req.headers['x-no-compression']) {
-    // don't compress responses with this request header
-    return false
-  }
-
-  // fallback to standard filter function
-  return compression.filter(req, res)
-}
-
-app.use(compression({ filter: shouldCompress }))
+app.use(compression())
 
 /*** MONGOOSE ***/
 const mongoose = require('mongoose')
