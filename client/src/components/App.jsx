@@ -2,7 +2,7 @@
 
 //PACKAGES
 import React, { Component } from 'react'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import SlideAnimation from 'react-slide-animation'
 
 //COMPONENTS
 import Result from './Result.jsx'
@@ -36,11 +36,12 @@ export default class App extends Component {
     this.saveToLocal(location)
   }
   saveToLocal(c) {
-    localStorage.setItem('nightlife_location', c)
-    console.log('Enjoy ' + c + '!')
+    if (c !== 'Search your location!') {
+      localStorage.setItem('nightlife_location', c)
+    }
   }
   getVenues(c) {
-    if (c) {
+    if (c && c !== 'Search your location!') {
       common.f('/api/' + c, 'GET', response => {
         this.setState({ venues: response })
       })
@@ -60,7 +61,6 @@ export default class App extends Component {
   componentWillMount() {
     this.getUser()
     if (lastLocation) {
-      console.log('Having fun in ' + lastLocation + '?')
       this.getVenues(lastLocation)
     }
   }
@@ -76,9 +76,12 @@ export default class App extends Component {
         </header>
 
         <main>
-          <h3 className="scene">
-            Your scene: {this.state.location}
-          </h3>
+          <label for="locationSubmitBox">
+            <h3 className="scene">
+              Your scene: {this.state.location}
+            </h3>
+          </label>
+
           <input
             id="locationSubmitBox"
             placeholder=" Search locations here..."
@@ -93,12 +96,9 @@ export default class App extends Component {
               permissions={this.state.permissions}
               user={this.state.user}
             />
-            <ReactCSSTransitionGroup
-              transitionName="example"
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={300}>
+            <SlideAnimation component="div">
               {results}
-            </ReactCSSTransitionGroup>
+            </SlideAnimation>
           </div>
         </main>
 

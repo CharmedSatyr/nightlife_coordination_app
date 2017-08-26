@@ -1,6 +1,7 @@
 //FILES
 @import '_github-btn.scss';
 @import '_results.scss';
+@import '_slide-override.scss';
 @import '_variables.scss';
 @import '_yelp.scss';
 
@@ -27,8 +28,11 @@ body {
 
 input {
   border-radius: 4px;
-  height: 24px;
+  font-family: $arch;
+  font-size: 24px;
+  height: 32px;
   width: 50vw;
+  -webkit-box-shadow: inset 0 0 3px $dark;
   box-shadow: inset 0 0 3px $dark;
 }
 
@@ -37,9 +41,10 @@ input {
   border-radius: 50px;
   @include bshadow($dark);
   font-family: $arch;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 600;
-  height: 40px;
-  margin-bottom: -2px;
-  margin-left: -8px;
+  height: 48px;
+  margin-bottom: -4px;
+  margin-left: -10px;
+  cursor: pointer;
 }

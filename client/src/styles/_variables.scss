@@ -16,6 +16,8 @@ $red: #d32323;
 }
 
 @mixin bshadow($color) {
+  -webkit-box-shadow: 0 0 3px $color, 1px 1px $color, -1px -1px $color,
+    1px -1px $color, -1px 1px $color;
   box-shadow: 0 0 3px $color, 1px 1px $color, -1px -1px $color, 1px -1px $color,
     -1px 1px $color;
 }

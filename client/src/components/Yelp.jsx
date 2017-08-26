@@ -10,7 +10,12 @@ const Yelp = () => {
     <div className="yelp">
       <div className="text">Results from</div>
       <a href="https://www.yelp.com">
-        <img className="y-logo" src={Yelp_logo} />
+        <img
+          alt="Yelp! logo"
+          className="y-logo"
+          name="Link to Yelp.com"
+          src={Yelp_logo}
+        />
       </a>
     </div>
   )
