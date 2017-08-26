@@ -80,7 +80,7 @@ export default class App extends Component {
         </header>
 
         <main>
-          <label for="locationSubmitBox">
+          <label htmlFor="locationSubmitBox">
             <h3 className="scene">
               {this.state.location}
             </h3>

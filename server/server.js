@@ -17,7 +17,7 @@ const path = process.cwd()
 
 if (process.env.NODE_ENV === 'development') {
   const morgan = require('morgan')
-  app.use(morgan('tiny'))
+  app.use(morgan('dev'))
 }
 require('dotenv').load()
 

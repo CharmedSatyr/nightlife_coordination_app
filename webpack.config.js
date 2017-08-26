@@ -43,7 +43,7 @@ module.exports = {
   },
   output: {
     path: __dirname + '/client/views',
-    //    filename: 'js/client.bundle.min.js' //Dev. This puts the client bundle into js but allows other resources to go into the folders specified in their paths
+    //    filename: 'js/client.bundle.js' //Dev. This puts the client bundle into js but allows other resources to go into the folders specified in their paths
     filename: 'js/client.bundle.min.js' //production
   },
   plugins: [
