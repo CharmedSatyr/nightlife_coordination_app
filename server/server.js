@@ -15,7 +15,8 @@ const session = require('express-session') //Should come before dotenv
 
 /*** GENERAL TOOLS ***/
 const path = process.cwd()
-if (process.env.NODE_ENV === 'development') {
+const DEV = process.env.NODE_ENV === 'development'
+if (DEV) {
   const morgan = require('morgan')
   app.use(morgan('dev'))
 }
