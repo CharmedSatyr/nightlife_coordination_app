@@ -4,6 +4,7 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: ['babel-polyfill', __dirname + '/client/src/index.jsx'],
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -27,7 +28,7 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000, //limit =< 10000 ? Data URL : fallback to file-loader
-          name: 'img/[sha256:hash:10].[ext]' //If using file-loader, emit to img/ as a 10 digit sha256 has with the proper extension.
+          name: 'img/[sha256:hash:5].[ext]' //If using file-loader, emit to img/ as a 10 digit sha256 has with the proper extension.
         }
       },
       {
@@ -36,7 +37,7 @@ module.exports = {
         options: {
           limit: 10000,
           mimetype: 'application/font-woff',
-          name: 'fonts/[sha256:hash:7].[ext]'
+          name: 'fonts/[sha256:hash:5].[ext]' //must use full output path
         }
       }
     ]
