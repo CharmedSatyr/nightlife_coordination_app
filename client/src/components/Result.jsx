@@ -59,7 +59,7 @@ export default class Result extends Component {
         </div>
         <div className="numBox">
           <CountUp start={0} end={this.state.numAttending} />
-          <small> others joining</small>
+          <small> going</small>
         </div>
       </div>
     )

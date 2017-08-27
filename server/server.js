@@ -11,10 +11,10 @@ User Story: As an unauthenticated user, when I login I should not have to search
 /*** EXPRESS ***/
 const express = require('express')
 const app = express()
+const session = require('express-session') //Should come before dotenv
 
 /*** GENERAL TOOLS ***/
 const path = process.cwd()
-
 if (process.env.NODE_ENV === 'development') {
   const morgan = require('morgan')
   app.use(morgan('dev'))
@@ -26,9 +26,8 @@ app.set('view engine', 'html')
 app.engine('html', (path, option, cb) => {})
 
 /*** MIDDLEWARE ***/
-const session = require('express-session')
 app.use('/js', express.static(path + '/client/views/js')) //The first argument creates the virtual directory used in index.html
-app.use('/img', express.static(path + '/client/views/img')) //The first argument creates the virtual directory used in index.html
+app.use('/img', express.static(path + '/client/views/img'))
 
 /*** COMPRESSION ***/
 const compression = require('compression')
