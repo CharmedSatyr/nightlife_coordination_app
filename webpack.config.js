@@ -2,9 +2,12 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 
+require('dotenv').load()
+const PROD = process.env.NODE_ENV === 'production'
+
 module.exports = {
   entry: ['babel-polyfill', __dirname + '/client/src/index.jsx'],
-  devtool: 'source-map',
+  devtool: PROD ? false : 'source-map',
   module: {
     rules: [
       {
@@ -14,10 +17,6 @@ module.exports = {
         options: {
           presets: ['env', 'react']
         }
-      },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.scss$/i,
@@ -44,39 +43,53 @@ module.exports = {
   },
   output: {
     path: __dirname + '/client/views',
-    //    filename: 'js/client.bundle.js' //Dev. This puts the client bundle into js but allows other resources to go into the folders specified in their paths
-    filename: 'js/client.bundle.min.js' //production
+    filename: PROD ? 'js/client.bundle.min.js' : 'js/client.bundle.js'
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        //NODE_ENV: JSON.stringify('development')
-        NODE_ENV: JSON.stringify('production')
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      comments: false
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      test: /\.(js|html)$/, //Defaults to all plugins
-      algorithm: 'gzip',
-      threshold: 10240,
-      minRatio: 0.8,
-      deleteOriginalAssets: false
-    }),
-    new HTMLWebpackPlugin({
-      title: 'Charmed Nightlife',
-      template: __dirname + '/client/src/' + 'index.html',
-      filename: __dirname + '/client/views/' + 'index.html',
-      inject: 'body'
-    }),
-    new HTMLWebpackPlugin({
-      title: 'Login',
-      template: __dirname + '/client/src/' + 'login.html',
-      filename: __dirname + '/client/views/' + 'login.html',
-      inject: 'body'
-    })
-  ]
+  plugins: PROD
+    ? [
+        new webpack.DefinePlugin({
+          'process.env': {
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+          }
+        }),
+        new webpack.optimize.UglifyJsPlugin(),
+        new CompressionPlugin({
+          asset: '[path].gz[query]',
+          algorithm: 'gzip',
+          threshold: 10240,
+          minRatio: 0.8,
+          deleteOriginalAssets: false
+        }),
+        new HTMLWebpackPlugin({
+          title: 'Charmed Nightlife',
+          template: __dirname + '/client/src/' + 'index.html',
+          filename: __dirname + '/client/views/' + 'index.html',
+          inject: 'body'
+        }),
+        new HTMLWebpackPlugin({
+          title: 'Login',
+          template: __dirname + '/client/src/' + 'login.html',
+          filename: __dirname + '/client/views/' + 'login.html',
+          inject: 'body'
+        })
+      ]
+    : [
+        new webpack.DefinePlugin({
+          'process.env': {
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+          }
+        }),
+        new HTMLWebpackPlugin({
+          title: 'Charmed Nightlife',
+          template: __dirname + '/client/src/' + 'index.html',
+          filename: __dirname + '/client/views/' + 'index.html',
+          inject: 'body'
+        }),
+        new HTMLWebpackPlugin({
+          title: 'Login',
+          template: __dirname + '/client/src/' + 'login.html',
+          filename: __dirname + '/client/views/' + 'login.html',
+          inject: 'body'
+        })
+      ]
 }
