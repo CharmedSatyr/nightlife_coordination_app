@@ -55,6 +55,7 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin(),
         new CompressionPlugin({
           asset: '[path].gz[query]',
+          test: /\.(js|html|css|json|ico|eot|otf|ttf)$/, //Defaults to all plugins, but using this: https://www.fastly.com/blog/new-gzip-settings-and-deciding-what-compress/
           algorithm: 'gzip',
           threshold: 10240,
           minRatio: 0.8,

@@ -5,11 +5,13 @@
   "main": "./server/server.js",
   "scripts": {
     "start": "npm-run-all --parallel client:watch server:watch",
-    "build": "webpack",
+    "build": "npm-run-all --parallel build:client build:server",
+    "build:client": "webpack --config webpack.client.config.js",
+    "build:server": "webpack --config webpack.server.config.js",
     "client:watch": "webpack --watch",
     "server": "node ./server/server.js",
     "server:watch": "nodemon ./server/server.js",
-    "clean": "rm -rf ./client/views; rm -rf server/dist"
+    "clean": "rm -rf ./client/views; rm -rf server/dist; rm -f server/*bundle*.js"
   },
   "repository": {
     "type": "git",
