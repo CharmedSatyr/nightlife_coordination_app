@@ -1,11 +1,32 @@
+/*** PACKAGES ***/
 const CompressionPlugin = require('compression-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
+const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 
 require('dotenv').load()
 const PROD = process.env.NODE_ENV === 'production'
 
-module.exports = {
+/*** COMMON PLUGINS ***/
+const compConfig = new CompressionPlugin({
+  asset: '[path].gz[query]',
+  test: /\.(js|html|css|json|ico|eot|otf|ttf)$/, //Defaults to all plugins, but using this: https://www.fastly.com/blog/new-gzip-settings-and-deciding-what-compress/
+  algorithm: 'gzip',
+  threshold: 10240,
+  minRatio: 0.8,
+  deleteOriginalAssets: false
+})
+
+const defineConfig = new webpack.DefinePlugin({
+  'process.env': {
+    NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+  }
+})
+
+const uglyConfig = new webpack.optimize.UglifyJsPlugin()
+
+/*** CLIENT CONFIG ***/
+const client = {
   entry: ['babel-polyfill', __dirname + '/client/src/index.jsx'],
   devtool: PROD ? false : 'source-map',
   module: {
@@ -19,7 +40,7 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/i,
+        test: /\.(css|sass|scss)$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
@@ -31,7 +52,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(eot|ttf|svg|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/i,
+        test: /\.(eot|ttf|svg|woff|woff2)$/i,
         loader: 'url-loader',
         options: {
           limit: 10000,
@@ -47,20 +68,9 @@ module.exports = {
   },
   plugins: PROD
     ? [
-        new webpack.DefinePlugin({
-          'process.env': {
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-          }
-        }),
-        new webpack.optimize.UglifyJsPlugin(),
-        new CompressionPlugin({
-          asset: '[path].gz[query]',
-          test: /\.(js|html|css|json|ico|eot|otf|ttf)$/, //Defaults to all plugins, but using this: https://www.fastly.com/blog/new-gzip-settings-and-deciding-what-compress/
-          algorithm: 'gzip',
-          threshold: 10240,
-          minRatio: 0.8,
-          deleteOriginalAssets: false
-        }),
+        defineConfig,
+        uglyConfig,
+        compConfig,
         new HTMLWebpackPlugin({
           title: 'Charmed Nightlife',
           template: __dirname + '/client/src/' + 'index.html',
@@ -75,11 +85,7 @@ module.exports = {
         })
       ]
     : [
-        new webpack.DefinePlugin({
-          'process.env': {
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-          }
-        }),
+        defineConfig,
         new HTMLWebpackPlugin({
           title: 'Charmed Nightlife',
           template: __dirname + '/client/src/' + 'index.html',
@@ -94,3 +100,37 @@ module.exports = {
         })
       ]
 }
+
+/*** SERVER CONFIG ***/
+const server = {
+  entry: ['babel-polyfill', __dirname + '/server/server.js'],
+  devtool: PROD ? false : 'source-map',
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/i,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        options: {
+          presets: ['env']
+        }
+      }
+    ]
+  },
+  node: {
+    console: false,
+    global: false,
+    process: false,
+    Buffer: false,
+    __filename: false,
+    __dirname: false
+  },
+  output: {
+    path: __dirname + '/server',
+    filename: PROD ? 'server.bundle.min.js' : 'server.bundle.js'
+  },
+  target: 'node',
+  externals: [nodeExternals()],
+  plugins: PROD ? [defineConfig, compConfig, uglyConfig] : [defineConfig]
+}
+module.exports = [client /*, server*/]
