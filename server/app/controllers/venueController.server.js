@@ -1,9 +1,13 @@
 'use strict'
 
-const Venue = require('../models/Venue.js')
-
 /*** ENVIRONMENTAL VARIABLES ***/
 require('dotenv').load()
+
+/*** MODEL ***/
+const Venue = require('../models/Venue.js')
+
+/*** TOOLS ***/
+const DEV = process.env.NODE_ENV === 'development'
 
 /*** YELP FUSION API ***/
 const Yelp = require('node-yelp-fusion')
@@ -17,8 +21,9 @@ class VenueController {
     //Get client-side location search parameter
     this.getLocation = (req, res) => {
       const location = req.params.location
-      console.log('Searching', location + '...')
-
+      if (DEV) {
+        console.log('Searching', location + '...')
+      }
       //Search Yelp! Fusion API for bars in that location and return the results
       yelp
         .search('categories=bars&location=' + location)

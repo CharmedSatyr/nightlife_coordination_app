@@ -13,7 +13,7 @@ const express = require('express')
 const app = express()
 const session = require('express-session') //Should come before dotenv
 
-/*** GENERAL TOOLS ***/
+/*** TOOLS ***/
 const path = process.cwd()
 const DEV = process.env.NODE_ENV === 'development'
 if (DEV) {

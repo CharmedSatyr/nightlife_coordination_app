@@ -1,6 +1,6 @@
 'use strict'
 
-/*** GENERAL TOOLS ***/
+/*** TOOLS ***/
 const path = process.cwd()
 const DEV = process.env.NODE_ENV === 'development'
 

@@ -103,7 +103,7 @@ const client = {
           inject: 'body'
         }),
         new ExtractTextPlugin({
-          filename: 'styles/[name]+[contenthash].min.css'
+          filename: 'styles/[name]+[sha256:contenthash:base64:5].min.css'
         }),
         defineConfig,
         uglyConfig,
@@ -124,7 +124,7 @@ const client = {
           inject: 'body'
         }),
         new ExtractTextPlugin({
-          filename: 'styles/[name]+[contenthash].css'
+          filename: 'styles/[name]+[sha256:contenthash:base64:5].css'
         })
       ]
 }
