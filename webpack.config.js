@@ -1,5 +1,6 @@
 /*** PACKAGES ***/
 const CompressionPlugin = require('compression-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HTMLWebpackPlugin = require('html-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
@@ -40,9 +41,30 @@ const client = {
         }
       },
       {
+        test: /\.(css|sass|scss)$/,
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          publicPath: '../', //The Plugin assumes css is in the same directory as the html by default (?) and redoes paths!
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                minimize: PROD ? true : false
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                minimize: PROD ? true : false
+              }
+            }
+          ]
+        })
+      },
+      /*      {
         test: /\.(css|sass|scss)$/i,
         use: ['style-loader', 'css-loader', 'sass-loader']
-      },
+      },*/
       {
         test: /\.(jpe?g|png|gif)$/i,
         loader: 'url-loader',
@@ -68,9 +90,6 @@ const client = {
   },
   plugins: PROD
     ? [
-        defineConfig,
-        uglyConfig,
-        compConfig,
         new HTMLWebpackPlugin({
           title: 'Charmed Nightlife',
           template: __dirname + '/client/src/' + 'index.html',
@@ -82,7 +101,13 @@ const client = {
           template: __dirname + '/client/src/' + 'login.html',
           filename: __dirname + '/client/views/' + 'login.html',
           inject: 'body'
-        })
+        }),
+        new ExtractTextPlugin({
+          filename: 'styles/[name]+[contenthash].min.css'
+        }),
+        defineConfig,
+        uglyConfig,
+        compConfig
       ]
     : [
         defineConfig,
@@ -97,6 +122,9 @@ const client = {
           template: __dirname + '/client/src/' + 'login.html',
           filename: __dirname + '/client/views/' + 'login.html',
           inject: 'body'
+        }),
+        new ExtractTextPlugin({
+          filename: 'styles/[name]+[contenthash].css'
         })
       ]
 }
@@ -133,4 +161,5 @@ const server = {
   externals: [nodeExternals()],
   plugins: PROD ? [defineConfig, compConfig, uglyConfig] : [defineConfig]
 }
+
 module.exports = [client /*, server*/]

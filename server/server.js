@@ -33,6 +33,8 @@ app.use(compression())
 /*** MIDDLEWARE ***/
 app.use('/js', express.static(path + '/client/views/js')) //The first argument creates the virtual directory used in index.html
 app.use('/img', express.static(path + '/client/views/img'))
+app.use('/fonts', express.static(path + '/client/views/fonts'))
+app.use('/styles', express.static(path + '/client/views/styles'))
 
 /*** MONGOOSE ***/
 const mongoose = require('mongoose')
