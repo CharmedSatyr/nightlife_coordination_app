@@ -26,13 +26,14 @@ require('dotenv').load()
 app.set('view engine', 'html')
 app.engine('html', (path, option, cb) => {})
 
-/*** MIDDLEWARE ***/
-app.use('/js', express.static(path + '/client/views/js')) //The first argument creates the virtual directory used in index.html
-app.use('/img', express.static(path + '/client/views/img'))
-
 /*** COMPRESSION ***/
 const compression = require('compression')
 app.use(compression())
+app.use('app', (req, res, next) => {})
+
+/*** MIDDLEWARE ***/
+app.use('/js', express.static(path + '/client/views/js')) //The first argument creates the virtual directory used in index.html
+app.use('/img', express.static(path + '/client/views/img'))
 
 /*** MONGOOSE ***/
 const mongoose = require('mongoose')
