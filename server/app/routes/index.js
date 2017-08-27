@@ -1,10 +1,13 @@
 'use strict'
 
+/*** GENERAL TOOLS ***/
 const path = process.cwd()
+const DEV = process.env.NODE_ENV === 'development'
 
+/*** MODELS ***/
 const Venue = require('../models/Venue.js')
 
-//Controllers
+/*** CONTROLLERS ***/
 const VenueController = require('../controllers/venueController.server.js')
 
 //Controller Object
@@ -21,17 +24,22 @@ module.exports = (app, passport) => {
   //Auth check
   const permissions = (req, res, next) => {
     if (req.isAuthenticated()) {
-      console.log('AUTHORIZATION SUCCESSFUL')
+      if (DEV) {
+        console.log('AUTHORIZATION SUCCESSFUL')
+      }
       if (req.user.github.displayName) {
         name_view = req.user.github.displayName
       } else if (req.user.github.username) {
         name_view = req.user.github.username
       }
-
-      console.log('USER:', name_view)
+      if (DEV) {
+        console.log('USER:', name_view)
+      }
       return next()
     } else {
-      console.log('USER NOT AUTHORIZED')
+      if (DEV) {
+        console.log('USER NOT AUTHORIZED')
+      }
       res.redirect('/login')
     }
   }
