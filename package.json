@@ -37,13 +37,13 @@
     "express": "^4.15.3",
     "express-session": "^1.15.5",
     "mongoose": "^4.10.5",
-    "node-yelp-fusion": "^1.0.4",
     "passport": "^0.3.2",
     "passport-github2": "^0.1.10",
     "react": "^15.5.4",
     "react-countup": "^2.2.0",
     "react-dom": "^15.5.4",
-    "react-slide-animation": "^15.5.0"
+    "react-slide-animation": "^15.5.0",
+    "superagent": "^5.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
