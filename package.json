@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CharmedSatyr/nightlife_coordination_app.git"
+    "url": "git+https://github.com/CharmedSatyr-freeCodeCamp/nightlife_coordination_app.git"
   },
   "keywords": [
     "React",
@@ -27,9 +27,9 @@
   "author": "CharmedSatyr",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/CharmedSatyr/nightlife_coordination_app/issues"
+    "url": "https://github.com/CharmedSatyr-freeCodeCamp/nightlife_coordination_app/issues"
   },
-  "homepage": "https://github.com/CharmedSatyr/nightlife_coordination_app#readme",
+  "homepage": "https://github.com/CharmedSatyr-freeCodeCamp/nightlife_coordination_app#readme",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "compression": "^1.7.0",
