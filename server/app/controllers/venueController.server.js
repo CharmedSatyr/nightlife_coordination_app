@@ -9,12 +9,8 @@ const Venue = require('../models/Venue.js')
 /*** TOOLS ***/
 const DEV = process.env.NODE_ENV === 'development'
 
-/*** YELP FUSION API ***/
-const Yelp = require('node-yelp-fusion')
-const yelp = new Yelp({
-  id: process.env.YELP_CLIENT_ID,
-  secret: process.env.YELP_CLIENT_SECRET
-})
+/*** SUPERAGENT ***/
+const superagent = require('superagent')
 
 class VenueController {
   constructor(req, res) {
@@ -25,13 +21,16 @@ class VenueController {
         console.log('Searching', location + '...')
       }
       //Search Yelp! Fusion API for bars in that location and return the results
-      yelp
-        .search('categories=bars&location=' + location)
-        .then(result => {
-          res.json(result.businesses)
+      const url = 'https://api.yelp.com/v3/businesses/search'
+      superagent
+        .get(url)
+        .set({ Authorization: `Bearer ${process.env.YELP_API_KEY}` })
+        .query({ categories: 'bars', location })
+        .then(results => {
+          res.json(results.body.businesses)
         })
         .catch(err => {
-          console.log(
+          console.error(
             'Search for ' +
               location +
               ' nightlife REJECTED by Yelp! API...\n' +
