@@ -49,7 +49,7 @@ const client = {
             {
               loader: 'css-loader',
               options: {
-                minimize: PROD ? true : false
+                //minimize: PROD ? true : false
               }
             },
             {

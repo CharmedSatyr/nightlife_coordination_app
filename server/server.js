@@ -40,13 +40,17 @@ app.use('/styles', express.static(path + '/client/views/styles'))
 const mongoose = require('mongoose')
 const db = mongoose.connection
 mongoose.Promise = global.Promise
-mongoose.connect(process.env.MONGO_URI, { useMongoClient: true }, (err, db) => {
-  if (err) {
-    console.error('Database failed to connect!')
-  } else {
-    console.log('Connected to Mongo database.')
+mongoose.connect(
+  process.env.MONGO_URI,
+  { useNewUrlParser: true },
+  (err, db) => {
+    if (err) {
+      console.error('Database failed to connect!')
+    } else {
+      console.log('Connected to Mongo database.')
+    }
   }
-})
+)
 
 /*** PASSPORT ***/
 const passport = require('passport')
